@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Mobile viewport settings to prevent zooming -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>HashNest</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="crossorigin="anonymous" />
+  <style>
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+    /* Reset default styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    /* Main body styling */
+    body {
+      background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      margin: 0;
+      padding: 10px;
+    }
+    /* Heading styles (custom block for app title and subtitle) */
+    .heading-block {
+      text-align: center;
+      margin-bottom: 18px;
+      font-family: 'Roboto', sans-serif;
+    }
+    .main-title {
+      font-size: 2.0rem;
+      font-weight: bold;
+      color: #27ae60;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+    .subtitle {
+      font-size: 1.3rem;
+      color: #e0e0e0;
+      font-weight: 400;
+      letter-spacing: 0.2px;
+    }
+    /* Main container styling */
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 30px;
+      width: 500px;
+      max-width: 100%;
+      margin-bottom: 60px;
+    }
+    /* Result container styling */
+    .result-container {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+      font-size: 17px;
+      letter-spacing: 1px;
+      padding: 12px 10px;
+      height: 50px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    /* Password result text styling */
+    .result-container #result {
+      word-wrap: break-word;
+      max-width: calc(100% - 50px);
+      padding-right: 10px;
+    }
+    /* Copy button styling */
+    .result-container .btn {
+      position: absolute;
+      top: 50%;
+      right: 5px;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* General button styling */
+    .btn {
+      border: none;
+      background: linear-gradient(45deg, #3498db, #2980b9);
+      color: #fff;
+      font-size: 16px;
+      padding: 12px 20px;
+      cursor: pointer;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+    /* Button hover effect */
+    .btn:hover {
+      background: linear-gradient(45deg, #1e8449, #27ae60);
+    }
+    /* Large button styling */
+    .btn-large {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      padding: 15px;
+      font-size: 18px;
+    }
+    /* Settings container styling */
+    .setting {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 15px 0;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    /* Settings hover effect */
+    .setting:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    /* Settings label styling */
+    .setting label {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    /* Number input styling */
+    .setting input[type="number"] {
+      width: 60px;
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 16px;
+    }
+    /* Number input focus state */
+    .setting input[type="number"]:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    /* Checkbox styling */
+    .setting input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #27ae60;
+    }
+    /* Feedback message styling */
+    #feedback {
+      text-align: center;
+      margin: 10px 0;
+      font-size: 16px;
+      color: #27ae60;
+      visibility: hidden;
+      padding: 8px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    /* Responsive design for mobile devices */
+    @media (max-width: 480px) {
+      .container {
+        width: 95%;
+        padding: 20px;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      .setting {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 15px 0;
+      }
+    }
+    /* Footer styling */
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      text-align: center;
+      font-size: 14px;
+    }
+    .footer span {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .footer i {
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- App Heading -->
+    <div class="heading-block">
+      <div class="main-title">HashNest</div>
+      <div class="subtitle">A cozy nest for strong &amp; secure credentials.</div>
+    </div>
+    <!-- Password display container -->
+    <div class="result-container">
+      <span id="result"></span>
+      <button class="btn" id="clipboard">
+        <i class="far fa-clipboard" id="clipboard-icon"></i>
+      </button>
+    </div>
+    <!-- Feedback message container -->
+    <div id="feedback">New password generated!</div>
+    <!-- Password settings -->
+    <div class="settings">
+      <div class="setting">
+        <label>Password Length</label>
+        <input type="number" id="length" min="4" max="30" value="20">
+      </div>
+      <div class="setting">
+        <label>Include uppercase Letters</label>
+        <input type="checkbox" id="uppercase" checked>
+      </div>
+      <div class="setting">
+        <label>Include lowercase Letters</label>
+        <input type="checkbox" id="lowercase" checked>
+      </div>
+      <div class="setting">
+        <label>Include numbers</label>
+        <input type="checkbox" id="numbers" checked>
+      </div>
+      <div class="setting">
+        <label>Include symbols</label>
+        <input type="checkbox" id="symbols" checked>
+      </div>
+    </div>
+    <!-- Generate password button -->
+    <button class="btn btn-large" id="generate">Generate Password</button>
+  </div>
+  <!-- Footer with social links -->
+  <div class="footer">
+    <span>&copy; 2025 HashNest | Developed by Poorna Sai Sriharsha
+      <a href="https://www.linkedin.com/in/poorna-sai-sriharsha-perina/" target="_blank" title="LinkedIn">
+        <i class="fab fa-linkedin" style="color: #0A66C2;"></i>
+      </a>
+      <a href="https://github.com/Poorna-Sai-Sriharsha" target="_blank" title="GitHub">
+        <i class="fab fa-github" style="color: #181717;"></i>
+      </a>
+    </span>
+  </div>
+  <script>
+    // DOM Elements
+    const resultEl = document.getElementById('result');
+    const lengthEl = document.getElementById('length');
+    const uppercaseEl = document.getElementById('uppercase');
+    const lowercaseEl = document.getElementById('lowercase');
+    const numbersEl = document.getElementById('numbers');
+    const symbolsEl = document.getElementById('symbols');
+    const generateEl = document.getElementById('generate');
+    const clipboardEl = document.getElementById('clipboard');
+    const clipboardIcon = document.getElementById('clipboard-icon');
+    const feedbackEl = document.getElementById('feedback');
+    // Random character generator functions
+    const randomfunc = {
+      lower: getRandomLower,
+      upper: getRandomUpper,
+      number: getRandomNumber,
+      symbol: getRandomSymbol
+    };
+    // Generate random lowercase letter
+    function getRandomLower() {return String.fromCharCode(Math.floor(Math.random() * 26) + 97);}
+    // Generate random uppercase letter
+    function getRandomUpper() {return String.fromCharCode(Math.floor(Math.random() * 26) + 65);}
+    // Generate random number
+    function getRandomNumber() {return String.fromCharCode(Math.floor(Math.random() * 10) + 48);}
+    // Generate random symbol
+    function getRandomSymbol() {const symbols = '!@#$%^&*(){}[]=<>/,.';return symbols[Math.floor(Math.random() * symbols.length)];}
+    // Generate password button click handler
+    generateEl.addEventListener('click', () => {
+      const length = +lengthEl.value;
+      // Validate password length
+      if (length < 4) {
+        alert('Password length must be at least 4 characters!');
+        lengthEl.value = 4;
+        return;
+      }
+      if (length > 30) {
+        alert('Password length cannot exceed 30 characters!');
+        lengthEl.value = 30;
+        return;
+      }
+      const hasLower = lowercaseEl.checked;
+      const hasUpper = uppercaseEl.checked;
+      const hasNumber = numbersEl.checked;
+      const hasSymbol = symbolsEl.checked;
+      // Generate password and display
+      const password = generatePassword(hasLower, hasUpper, hasNumber, hasSymbol, length);
+      resultEl.innerText = password;
+      // Show feedback message
+      feedbackEl.style.visibility = 'visible';
+      setTimeout(() => feedbackEl.style.visibility = 'hidden', 1500);
+    });
+    // Password generation logic
+    function generatePassword(lower, upper, number, symbol, length) {
+      let generatedPassword = '';
+      const typesCount = lower + upper + number + symbol;
+      // Array of enabled character types
+      const typesArr = [{ lower }, { upper }, { number }, { symbol }].filter(item => Object.values(item)[0]);
+      if (typesCount === 0) return '';
+      // Ensure at least one character from each selected type
+      typesArr.forEach(type => {
+        const funcName = Object.keys(type)[0];
+        generatedPassword += randomfunc[funcName]();
+      });
+      // Fill the rest of the password
+      for (let i = typesArr.length; i < length; i++) {
+        const funcName = Object.keys(typesArr[Math.floor(Math.random() * typesArr.length)])[0];
+        generatedPassword += randomfunc[funcName]();
+      }
+      // Shuffle the password for randomness
+      return generatedPassword.split('').sort(() => Math.random() - 0.5).join('');
+    }
+    // Copy to clipboard functionality
+    clipboardEl.addEventListener('click', async () => {
+      const password = resultEl.innerText;
+      if (!password) return;
+      try {
+        await navigator.clipboard.writeText(password);
+        // Update clipboard icon to checkmark
+        clipboardIcon.classList.remove('fa-clipboard');
+        clipboardIcon.classList.add('fa-check');
+        // Reset icon after 1.5 seconds
+        setTimeout(() => {
+          clipboardIcon.classList.remove('fa-check');
+          clipboardIcon.classList.add('fa-clipboard');
+        }, 1500);
+      } catch (err) {
+        alert('Failed to copy to clipboard');
+      }
+    });
+  </script>
+</body>
+</html>
