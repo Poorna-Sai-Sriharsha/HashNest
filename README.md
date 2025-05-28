@@ -28,7 +28,7 @@ For Live demo
 
 ## 🧰 Getting Started
 ->To run this project locally:-</br>
-->Clone the repo git clone </br>
+->Clone the repo git clone https://github.com/Poorna-Sai-Sriharsha/HashNest.git</br>
 ->Navigate to the project directory cd HashNest</br>
 ->Open index.html in a browser or use a local server (e.g., npx live-server) for the best experience.</br>
 ->Note: No additional dependencies are required, as all libraries are included via CDNs.
