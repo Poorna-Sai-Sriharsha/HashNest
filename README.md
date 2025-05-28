@@ -1,7 +1,7 @@
 # 🔐 HashNest
 Developed HashNest, a visually appealing and fully responsive web-based password generator with advanced customization options, clipboard integration, and modern UI/UX enhancements using HTML, CSS, and JavaScript.
 ## 🚀 Live Demo
-For Live demo
+For Live demo:- https://poorna-sai-sriharsha.github.io/HashNest/
 
 ## 📸 Screenshots
 ![HashNest UI](HashNest.png)
